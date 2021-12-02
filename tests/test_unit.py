@@ -443,6 +443,21 @@ class CreateAppConnexionAppInitTestCase(TestCase):
         assert len(args) == 1
         assert args[0] is not None
 
+    # TODO: test here the parsing is working with the $defs from system_profile.spec.yaml
+    # and the check parser.specification["components"]["schemas"] - this is more a library test
+    @patch("app.TranslatingParser")
+    def test_translatingparser(self, translating_parser, get_engine, app):
+        create_app(RuntimeEnvironment.TEST)
+        # check if SystemProfile is in the componentes referenced
+        assert "SystemProfile" in translating_parser.return_value.specification["components"]["schema"]
+
+    # TODO: try to create an app with bad defs assert that it wont create
+    # @patch("app.TranslatingParser")
+    # def test_translatingparser(self, translating_parser, get_engine, app):
+    #     with patch(translating_parser.specification["version"], return_value=None):
+    #         create_app(RuntimeEnvironment.TEST)
+    #     pass
+
 
 class HostOrderHowTestCase(TestCase):
     def test_asc(self):
